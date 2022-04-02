@@ -6,40 +6,30 @@ import { OrbitControls } from '@react-three/drei';
 
 function App() {
   const basePoints: Array<IPoint> = useMemo(() => [
-    // {
-    //   charge: 3,
-    //   position: [0.5, 0, 0],
-    //   id: 0
-    // },
     {
-      charge: -3,
+      charge: -1,
       position: [-0.5, 0, 0],
       id: 1
     },
     {
-      charge: -3,
+      charge: -1,
       position: [0, 0, 0.5],
       id: 2
     },
     {
-      charge: -3,
+      charge: -1,
       position: [0, 1, 0.5],
       id: 3
     },
     {
-      charge: 7,
-      position: [-2, -3, 0.5],
+      charge: -1,
+      position: [0, 0.5, 0.5],
       id: 4
     },
     {
-      charge: 1,
-      position: [2, -3, 0.5],
+      charge: 4,
+      position: [-2, -3, 0.5],
       id: 5
-    },
-    {
-      charge: -1.5,
-      position: [0, -1, 2],
-      id: 6
     }
   ], [])
   
@@ -48,7 +38,7 @@ function App() {
   const updatePoint = useCallback((point: IPoint) => {
     setPoints((prevPoints) => prevPoints.map((prevPoint) => prevPoint.id === point.id ? point : prevPoint))
   }, [])
-  
+
   return (
     <div className="AppContainer">
       <button onClick={() => setIsRunning(!isRunning)}>start/stop</button>
