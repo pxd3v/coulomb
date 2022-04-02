@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Mesh } from 'three'
 import { useCallback } from 'react'
@@ -21,12 +21,18 @@ export function Point({ currentPoint, envPoints, updatePoint, isRunning }: IPoin
   
   useFrame(() => {
     if(!isRunning) return
-    const [{ position, force }] = getForce()
+    const { forceVector, force } = getForce()
     
-    mesh.current.position.x += position[0] * 0.0001 * force 
-    mesh.current.position.y += position[1] * 0.0001 * force
-    mesh.current.position.z += position[2] * 0.0001 * force
-    
+    if(Math.abs(forceVector[0]) > 0.05) {
+      mesh.current.position.x += forceVector[0] * 0.0001 * force 
+    }
+    if(Math.abs(forceVector[1]) > 0.05) {
+      mesh.current.position.y += forceVector[1] * 0.0001 * force 
+    }
+    if(Math.abs(forceVector[2]) > 0.05) {
+      mesh.current.position.z += forceVector[2] * 0.0001 * force 
+    }
+
     updatePoint({
       ...currentPoint,
       position: [
@@ -41,22 +47,22 @@ export function Point({ currentPoint, envPoints, updatePoint, isRunning }: IPoin
   
   const getForce = useCallback(() => {
     return envPoints.filter(point => point.id !== currentPoint.id).reduce((acc, point) => {
-      const position = point.position.map((axis, index) => {
+      const currentVector = point.position.map((axis, index) => {
         return -(axis - currentPoint.position[index])
       })
-       
+      
       const distance = Math.sqrt(
         Math.pow(point.position[0] - currentPoint.position[0], 2) +
         Math.pow(point.position[1] - currentPoint.position[1], 2) +
         Math.pow(point.position[2] - currentPoint.position[2], 2)
       )
+
       const force = (point.charge * currentPoint.charge) / Math.pow(distance, 2)
-      console.log('@@ref point', point)
-      console.log('@@current point', currentPoint)
-      console.log('@@vetor diretor', position)
-      console.log('@@force', force)
-      return [...acc, { position, force }]
-    }, [] as Array<{ position: Array<number>, force: number }>)
+      
+      const forceVector = currentVector.map((axis, index) => axis + acc.forceVector[index])
+
+      return { forceVector, force }
+    }, { forceVector: [0, 0, 0], force: 0 })
   }, [currentPoint, envPoints])
 
   return (
