@@ -2,22 +2,23 @@ import './App.css';
 import { IPoint, Point } from './components/Point'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react';
+import { OrbitControls } from '@react-three/drei';
 
 function App() {
   const basePoints: Array<IPoint> = useMemo(() => [
     {
-      charge: 3,
+      charge: 10,
       position: [-0.5, 0, 0],
       id: 0
     },
     {
-      charge: -3,
-      position: [0.5, 0, 0],
+      charge: -10,
+      position: [20, 0, -5],
       id: 1
     },
     {
-      charge: 3,
-      position: [0, 1, 0],
+      charge: 10,
+      position: [0, 1, 10],
       id: 2
     },
   ], [])
@@ -33,6 +34,13 @@ function App() {
       <button onClick={() => setIsRunning(!isRunning)}>start/stop</button>
       <button onClick={() => { setPoints(basePoints); setIsRunning(false) }}>restart</button>
       <Canvas>
+        <OrbitControls
+          makeDefault
+          enableZoom={true}
+          enablePan={true}
+          zoomSpeed={0.3}
+        />
+        <gridHelper args={[50, 500]} />
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         {points.map(point => (

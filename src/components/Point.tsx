@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Mesh } from 'three'
 import { useCallback } from 'react'
+import { TransformControls } from '@react-three/drei'
 
 export interface IPoint {
   charge: number
