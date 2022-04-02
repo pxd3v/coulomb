@@ -2,7 +2,6 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Mesh } from 'three'
 import { useCallback } from 'react'
-import { TransformControls } from '@react-three/drei'
 
 export interface IPoint {
   charge: number
@@ -22,16 +21,16 @@ export function Point({ currentPoint, envPoints, updatePoint, isRunning }: IPoin
   
   useFrame(() => {
     if(!isRunning) return
-    const { forceVector, force } = getForce()
+    const { forceVector, vectorWithoutForce } = getForce()
     
-    if(Math.abs(forceVector[0]) > 0.05) {
-      mesh.current.position.x += forceVector[0] * 0.0001 * force 
+    if(Math.abs(vectorWithoutForce[0]) > 0.05) {
+      mesh.current.position.x += forceVector[0] * 0.001
     }
-    if(Math.abs(forceVector[1]) > 0.05) {
-      mesh.current.position.y += forceVector[1] * 0.0001 * force 
+    if(Math.abs(vectorWithoutForce[1]) > 0.05) {
+      mesh.current.position.y += forceVector[1] * 0.001
     }
-    if(Math.abs(forceVector[2]) > 0.05) {
-      mesh.current.position.z += forceVector[2] * 0.0001 * force 
+    if(Math.abs(vectorWithoutForce[2]) > 0.05) {
+      mesh.current.position.z += forceVector[2] * 0.001
     }
 
     updatePoint({
@@ -57,13 +56,17 @@ export function Point({ currentPoint, envPoints, updatePoint, isRunning }: IPoin
         Math.pow(point.position[1] - currentPoint.position[1], 2) +
         Math.pow(point.position[2] - currentPoint.position[2], 2)
       )
+      
+      if(distance < 0.4) {
+        return acc
+      }
 
       const force = (point.charge * currentPoint.charge) / Math.pow(distance, 2)
-      
-      const forceVector = currentVector.map((axis, index) => axis + acc.forceVector[index])
-
-      return { forceVector, force }
-    }, { forceVector: [0, 0, 0], force: 0 })
+      const forceVector = currentVector.map((axis, index) => axis * force + acc.forceVector[index])
+      const vectorWithoutForce = currentVector.map((axis, index) => axis + acc.vectorWithoutForce[index])
+            
+      return { forceVector, vectorWithoutForce }
+    }, { forceVector: [0, 0, 0], vectorWithoutForce: [0, 0, 0] })
   }, [currentPoint, envPoints])
 
   return (
@@ -73,7 +76,7 @@ export function Point({ currentPoint, envPoints, updatePoint, isRunning }: IPoin
       scale={scale}
     >
       <sphereGeometry args={[0.4, 32, 16]} />
-      <meshStandardMaterial color="orange" />
+      <meshStandardMaterial color={ currentPoint.charge > 0 ?  'blue' : 'red'} />
     </mesh>
   )
 }

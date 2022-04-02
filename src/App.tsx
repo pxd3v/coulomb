@@ -6,21 +6,41 @@ import { OrbitControls } from '@react-three/drei';
 
 function App() {
   const basePoints: Array<IPoint> = useMemo(() => [
+    // {
+    //   charge: 3,
+    //   position: [0.5, 0, 0],
+    //   id: 0
+    // },
     {
-      charge: 10,
+      charge: -3,
       position: [-0.5, 0, 0],
-      id: 0
-    },
-    {
-      charge: -10,
-      position: [20, 0, -5],
       id: 1
     },
     {
-      charge: 10,
-      position: [0, 1, 10],
+      charge: -3,
+      position: [0, 0, 0.5],
       id: 2
     },
+    {
+      charge: -3,
+      position: [0, 1, 0.5],
+      id: 3
+    },
+    {
+      charge: 7,
+      position: [-2, -3, 0.5],
+      id: 4
+    },
+    {
+      charge: 1,
+      position: [2, -3, 0.5],
+      id: 5
+    },
+    {
+      charge: -1.5,
+      position: [0, -1, 2],
+      id: 6
+    }
   ], [])
   
   const [points, setPoints] = useState<Array<IPoint>>(basePoints)
@@ -40,7 +60,8 @@ function App() {
           enablePan={true}
           zoomSpeed={0.3}
         />
-        <gridHelper args={[50, 500]} />
+        <gridHelper args={[50, 100]} />
+        <axesHelper />
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         {points.map(point => (
