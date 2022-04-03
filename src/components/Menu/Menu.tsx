@@ -1,18 +1,32 @@
+import React, { useCallback, useState } from 'react';
 import './Menu.scss'
-import { useEnv } from '../../contexts/EnvContext';
-import { usePoints } from '../../contexts/PointsContext';
+import Sections, { PossibleSections } from './Sections/Sections';
+import Config from './Sections/Config/Config'
+import Points from './Sections/Points/Points'
 
-function App() {
-  const { resetPoints } = usePoints()
-  const { isRunning, setIsRunning, showGrid, setShowGrid } = useEnv()
+function Menu() {
+  const [focusedSection, setFocusedSection] = useState<PossibleSections | null>(null)
+  const onChangeFocusedSection = useCallback((newValue: PossibleSections | null) => {
+    setFocusedSection(newValue)
+  }, [])
   
+  const possibleComponents = {
+    Config,
+    Points
+  }
+
+  const ComponentToUse = possibleComponents[focusedSection!]
   return (
     <div className="Menu">
-        <button onClick={() => setIsRunning(!isRunning)}>start/stop</button>
-        <button onClick={() => { resetPoints(); setIsRunning(false) }}>restart</button>
-        <button onClick={() => { setShowGrid(!showGrid) }}>toggle grid</button>
+        <Sections 
+          focusedSection={focusedSection}
+          onChangeFocusedSection={onChangeFocusedSection}
+        />
+        <div className="Menu__RenderArea">
+          {focusedSection && ComponentToUse()}
+        </div>
     </div>
   );
 }
 
-export default App;
+export default Menu;

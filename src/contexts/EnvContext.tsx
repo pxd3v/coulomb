@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useRef, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface EnvProviderProps {
     children: ReactNode;

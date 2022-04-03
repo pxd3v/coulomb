@@ -7,9 +7,9 @@
     margin-top: 12px;
     border-radius: 8px;
     display: flex;
-    flex-direction: column;
     background-color: #fff;
-    & > * + * {
-        margin-top: 8px;
+    
+    &__RenderArea {
+        margin-left: 12px;
     }
 }
