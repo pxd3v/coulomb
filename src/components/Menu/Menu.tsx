@@ -1,4 +1,4 @@
-import './Menu.css'
+import './Menu.scss'
 import { useEnv } from '../../contexts/EnvContext';
 import { usePoints } from '../../contexts/PointsContext';
 

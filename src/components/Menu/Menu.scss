@@ -8,4 +8,8 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    & > * + * {
+        margin-top: 8px;
+    }
 }

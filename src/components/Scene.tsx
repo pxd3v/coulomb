@@ -20,6 +20,7 @@ function Scene() {
         <axesHelper />
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
+        <color attach="background" args={[0.85, 0.85, 0.85]} />
         {points.map(point => (
             <Point
               currentPoint={point} 
