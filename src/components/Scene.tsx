@@ -9,7 +9,7 @@ function Scene() {
   const { isRunning } = useEnv()
   
   return (
-    <Canvas>
+    <Canvas camera={{ fov: 90, position: [3, 3, 3]}}>
         <OrbitControls
             makeDefault
             enableZoom={true}
