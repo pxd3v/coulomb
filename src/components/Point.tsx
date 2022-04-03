@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Mesh } from 'three'
+import { Mesh, Vector3 } from 'three'
 import { useCallback } from 'react'
 
 export interface IPoint {
@@ -14,9 +14,10 @@ interface IPointProps {
   envPoints: Array<IPoint>
   updatePoint: (point: IPoint) => void
   canMove: boolean
+  orbitControlsRef: any
 }
 
-export function Point({ currentPoint, envPoints, updatePoint, canMove }: IPointProps) {
+export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitControlsRef }: IPointProps) {
   const mesh = useRef<Mesh>(null!)
   
   useFrame(() => {
@@ -69,11 +70,16 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove }: IPointP
     }, { forceVector: [0, 0, 0], vectorWithoutForce: [0, 0, 0] })
   }, [currentPoint, envPoints])
 
+  const focusPoint = useCallback(() => {
+    orbitControlsRef.current.target = new Vector3(mesh.current.position.x, mesh.current.position.y, mesh.current.position.z)
+  }, [orbitControlsRef])
+
   return (
     <mesh
       position={currentPoint.position}
       ref={mesh}
       scale={scale}
+      onClick={focusPoint}
     >
       <sphereGeometry args={[0.4, 32, 16]} />
       <meshStandardMaterial color={ currentPoint.charge > 0 ?  'blue' : 'red'} />
