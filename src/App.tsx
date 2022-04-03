@@ -1,69 +1,18 @@
 import './App.css';
-import { IPoint, Point } from './components/Point'
-import { Canvas } from '@react-three/fiber'
-import { useCallback, useMemo, useState } from 'react';
-import { OrbitControls } from '@react-three/drei';
+import Scene from './components/Scene';
+import { PointsProvider } from './contexts/PointsContext';
+import Menu from './components/Menu/Menu';
+import { EnvProvider } from './contexts/EnvContext';
 
 function App() {
-  const basePoints: Array<IPoint> = useMemo(() => [
-    {
-      charge: -1,
-      position: [-0.5, 0, 0],
-      id: 1
-    },
-    {
-      charge: -1,
-      position: [0, 0, 0.5],
-      id: 2
-    },
-    {
-      charge: -1,
-      position: [0, 1, 0.5],
-      id: 3
-    },
-    {
-      charge: -1,
-      position: [0, 0.5, 0.5],
-      id: 4
-    },
-    {
-      charge: 4,
-      position: [-2, -3, 0.5],
-      id: 5
-    }
-  ], [])
-  
-  const [points, setPoints] = useState<Array<IPoint>>(basePoints)
-  const [isRunning, setIsRunning] = useState<boolean>(false)
-  const updatePoint = useCallback((point: IPoint) => {
-    setPoints((prevPoints) => prevPoints.map((prevPoint) => prevPoint.id === point.id ? point : prevPoint))
-  }, [])
-
   return (
     <div className="AppContainer">
-      <button onClick={() => setIsRunning(!isRunning)}>start/stop</button>
-      <button onClick={() => { setPoints(basePoints); setIsRunning(false) }}>restart</button>
-      <Canvas>
-        <OrbitControls
-          makeDefault
-          enableZoom={true}
-          enablePan={true}
-          zoomSpeed={0.3}
-        />
-        <gridHelper args={[50, 100]} />
-        <axesHelper />
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        {points.map(point => (
-          <Point 
-            currentPoint={point} 
-            envPoints={points} 
-            key={point.id} 
-            updatePoint={updatePoint} 
-            isRunning={isRunning}
-          />
-        ))}
-      </Canvas>
+      <PointsProvider>
+        <EnvProvider>
+          <Menu />
+          <Scene />
+        </EnvProvider>
+      </PointsProvider>
     </div>
   );
 }

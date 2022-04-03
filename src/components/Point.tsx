@@ -13,14 +13,14 @@ interface IPointProps {
   currentPoint: IPoint
   envPoints: Array<IPoint>
   updatePoint: (point: IPoint) => void
-  isRunning: boolean
+  canMove: boolean
 }
 
-export function Point({ currentPoint, envPoints, updatePoint, isRunning }: IPointProps) {
+export function Point({ currentPoint, envPoints, updatePoint, canMove }: IPointProps) {
   const mesh = useRef<Mesh>(null!)
   
   useFrame(() => {
-    if(!isRunning) return
+    if(!canMove) return
     const { forceVector, vectorWithoutForce } = getForce()
     
     if(Math.abs(vectorWithoutForce[0]) > 0.05) {
