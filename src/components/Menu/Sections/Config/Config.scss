@@ -1,8 +1,8 @@
 .Config {
     display: flex;
-    flex-direction: column;
-    
-    & > * + * {
-        margin-top: 8px;
+    flex-direction: row;
+
+    button + button {
+        margin-left: 8px;
     }
 }
