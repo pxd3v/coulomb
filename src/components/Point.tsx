@@ -5,7 +5,9 @@ import { useCallback } from 'react'
 
 export interface IPoint {
   charge: number
-  position: [number, number, number]
+  x: number,
+  y: number,
+  z: number,
   id: number
 }
 
@@ -24,6 +26,8 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
     if(!canMove) return
     const { forceVector, vectorWithoutForce } = getForce()
     
+    debugger
+    
     if(Math.abs(vectorWithoutForce[0]) > 0.05) {
       mesh.current.position.x += forceVector[0] * 0.001
     }
@@ -36,11 +40,9 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
 
     updatePoint({
       ...currentPoint,
-      position: [
-        mesh.current.position.x,
-        mesh.current.position.y,
-        mesh.current.position.z
-      ]
+      x: mesh.current.position.x,
+      y: mesh.current.position.y,
+      z: mesh.current.position.z
     })
   })
   
@@ -48,14 +50,16 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
   
   const getForce = useCallback(() => {
     return envPoints.filter(point => point.id !== currentPoint.id).reduce((acc, point) => {
-      const currentVector = point.position.map((axis, index) => {
-        return -(axis - currentPoint.position[index])
+      const pointPosition = [point.x, point.y, point.z]
+      const currentPointPosition = [currentPoint.x, currentPoint.y, currentPoint.z]
+      const currentVector = pointPosition.map((axis, index) => {
+        return -(axis - currentPointPosition[index])
       })
       
       const distance = Math.sqrt(
-        Math.pow(point.position[0] - currentPoint.position[0], 2) +
-        Math.pow(point.position[1] - currentPoint.position[1], 2) +
-        Math.pow(point.position[2] - currentPoint.position[2], 2)
+        Math.pow(pointPosition[0] - currentPointPosition[0], 2) +
+        Math.pow(pointPosition[1] - currentPointPosition[1], 2) +
+        Math.pow(pointPosition[2] - currentPointPosition[2], 2)
       )
       
       if(distance < 0.4) {
@@ -65,7 +69,7 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
       const force = (point.charge * currentPoint.charge) / Math.pow(distance, 2)
       const forceVector = currentVector.map((axis, index) => axis * force + acc.forceVector[index])
       const vectorWithoutForce = currentVector.map((axis, index) => axis + acc.vectorWithoutForce[index])
-            
+
       return { forceVector, vectorWithoutForce }
     }, { forceVector: [0, 0, 0], vectorWithoutForce: [0, 0, 0] })
   }, [currentPoint, envPoints])
@@ -76,7 +80,7 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
 
   return (
     <mesh
-      position={currentPoint.position}
+      position={[currentPoint.x, currentPoint.y, currentPoint.z]}
       ref={mesh}
       scale={scale}
       onClick={focusPoint}

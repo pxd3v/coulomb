@@ -1,0 +1,31 @@
+.Points {
+    display: flex;
+    flex-direction: column;
+
+    &__Input {
+        display: flex;
+        flex-direction: row;
+        width: 300px;
+
+        label {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 20%;
+
+            input {
+                margin-top: 6px;
+            }
+        }
+
+        label + label {
+            margin-left: 10px;
+        }
+
+        flex: 1;
+    }
+    
+    &__Input + &__Input {
+        margin-top: 12px;
+    }
+}

@@ -7,12 +7,12 @@ import { EnvProvider } from './contexts/EnvContext';
 function App() {
   return (
     <div className="AppContainer">
-      <PointsProvider>
-        <EnvProvider>
+      <EnvProvider>
+        <PointsProvider>
           <Menu />
           <Scene />
-        </EnvProvider>
-      </PointsProvider>
+        </PointsProvider>
+      </EnvProvider>
     </div>
   );
 }
