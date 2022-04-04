@@ -30,14 +30,7 @@ export function PointsProvider({children}: PointsProviderProps) {
             y: -1,
             z: 1,
             id: 1
-        },
-        {
-            charge: -1,
-            x: 0,
-            y: 0,
-            z: 0,
-            id: 3
-        },
+        }
     ])
 
     const [points, setPoints] = useState<Array<IPoint>>([...basePoints])
