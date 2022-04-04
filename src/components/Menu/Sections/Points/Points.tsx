@@ -11,7 +11,7 @@ enum PossibleChanges {
 }
 
 function Points() {
-  const { points, updatePoint } = usePoints()
+  const { points, updatePoint, createNewPoint } = usePoints()
   const { setIsRunning } = useEnv()
   
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, point: IPoint, property: PossibleChanges) => {
@@ -42,6 +42,7 @@ function Points() {
             </label>
           </span>
         ))}
+        <button className="Points__CreateNewPoint" onClick={createNewPoint}>Create new point</button>
     </div>
   );
 }

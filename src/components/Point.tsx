@@ -26,8 +26,6 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
     if(!canMove) return
     const { forceVector, vectorWithoutForce } = getForce()
     
-    debugger
-    
     if(Math.abs(vectorWithoutForce[0]) > 0.05) {
       mesh.current.position.x += forceVector[0] * 0.001
     }
