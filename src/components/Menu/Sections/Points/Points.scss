@@ -1,7 +1,7 @@
 .Points {
     display: flex;
     flex-direction: column;
-
+    
     &__Input {
         display: flex;
         flex-direction: row;
@@ -15,6 +15,7 @@
 
             input {
                 margin-top: 6px;
+                font-size: 16px;
             }
         }
 
