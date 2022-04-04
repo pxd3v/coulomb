@@ -1,7 +1,9 @@
 import './Config.scss'
 import { useEnv } from '../../../../contexts/EnvContext';
 import { usePoints } from '../../../../contexts/PointsContext';
-
+import { FaStop, FaPlay } from 'react-icons/fa';
+import { IoReload } from 'react-icons/io5';
+import { FcExpand, FcCollapse } from 'react-icons/fc';
 interface IConfigProps {
   setOpenPoints: (open: boolean) => void
   openPoints: boolean
@@ -13,10 +15,10 @@ function Config({ setOpenPoints, openPoints }: IConfigProps) {
   
   return (
     <div className="Config">
-        <button onClick={() => setIsRunning(!isRunning)}>{ isRunning ? 'stop' : 'start'}</button>
-        <button onClick={() => { resetPoints(); setIsRunning(false) }}>restart</button>
+        <button onClick={() => setIsRunning(!isRunning)}>{ isRunning ? <FaStop /> : <FaPlay />}</button>
+        <button onClick={() => { resetPoints(); setIsRunning(false) }}><IoReload /></button>
         <button onClick={() => { setShowGrid(!showGrid) }}>toggle grid</button>
-        <button className="Menu__ToggleButton"onClick={() => setOpenPoints(!openPoints)}>{ openPoints ? 'close' : 'open'}</button>
+        <button className="Config__ToggleButton"onClick={() => setOpenPoints(!openPoints)}>{ openPoints ? <FcCollapse /> : <FcExpand />}</button>
     </div>
   );
 }

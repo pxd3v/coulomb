@@ -20,6 +20,11 @@ function Points() {
     setIsRunning(false)
   }
 
+  const onCreateNewPoint = () => {
+    createNewPoint()
+    setIsRunning(false)
+  }
+
   return (
     <div className="Points">
         {points.map((point) => (
@@ -42,7 +47,7 @@ function Points() {
             </label>
           </span>
         ))}
-        <button className="Points__CreateNewPoint" onClick={createNewPoint}>Create new point</button>
+        <button className="Points__CreateNewPoint" onClick={onCreateNewPoint}>Create new point</button>
     </div>
   );
 }

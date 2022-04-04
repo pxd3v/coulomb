@@ -1,8 +1,27 @@
 .Config {
     display: flex;
     flex-direction: row;
+    width: 100%;
 
-    button + button {
-        margin-left: 8px;
+    button {
+        & + button {
+            margin-left: 8px;
+        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        padding: 3px;
+
+        &:hover {
+            background-color: #ddd;
+        }
+    }
+
+    &__ToggleButton {
+        margin-left: auto !important;
     }
 }
