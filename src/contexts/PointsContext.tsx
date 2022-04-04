@@ -18,24 +18,31 @@ const PointsContext = createContext({} as PointsData)
 export function PointsProvider({children}: PointsProviderProps) {
     const [basePoints, setBasePoints] = useState<Array<IPoint>>([
         {
-            charge: -1,
-            x: -1,
-            y: 0,
-            z: 0,
+            charge: -2,
+            x: 1,
+            y: 1,
+            z: -1,
             id: 0
         },
         {
-            charge: -1,
-            x: 1,
-            y: 1,
-            z: 0,
+            charge: 2,
+            x: -1,
+            y: -1,
+            z: 1,
             id: 1
-        }
+        },
+        {
+            charge: 1,
+            x: 0,
+            y: 0,
+            z: 0,
+            id: 3
+        },
     ])
 
     const [points, setPoints] = useState<Array<IPoint>>([...basePoints])
     
-    const [nextIndex, setNextIndex] = useState(2)
+    const [nextIndex, setNextIndex] = useState(3)
     
     const updatePoint = useCallback((point: IPoint) => {
         setPoints((prevPoints) => prevPoints.map((prevPoint) => prevPoint.id === point.id ? point : prevPoint))

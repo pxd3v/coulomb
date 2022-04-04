@@ -27,13 +27,13 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
     const { forceVector, vectorWithoutForce } = getForce()
     
     if(Math.abs(vectorWithoutForce[0]) > 0.05) {
-      mesh.current.position.x += forceVector[0] * 0.001
+      mesh.current.position.x += forceVector[0] * 0.004
     }
     if(Math.abs(vectorWithoutForce[1]) > 0.05) {
-      mesh.current.position.y += forceVector[1] * 0.001
+      mesh.current.position.y += forceVector[1] * 0.004
     }
     if(Math.abs(vectorWithoutForce[2]) > 0.05) {
-      mesh.current.position.z += forceVector[2] * 0.001
+      mesh.current.position.z += forceVector[2] * 0.004
     }
 
     updatePoint({
@@ -44,7 +44,7 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
     })
   })
   
-  const scale = useMemo(() => Math.abs(currentPoint.charge) * 0.1, [currentPoint.charge])
+  const scale = useMemo(() => 0.3 + Math.abs(currentPoint.charge) * 0.02, [currentPoint.charge])
   
   const getForce = useCallback(() => {
     return envPoints.filter(point => point.id !== currentPoint.id).reduce((acc, point) => {
