@@ -44,7 +44,7 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
     })
   })
   
-  const scale = useMemo(() => 0.3 + Math.abs(currentPoint.charge) * 0.02, [currentPoint.charge])
+  const scale = useMemo(() => 0.2 + Math.abs(currentPoint.charge) * 0.05, [currentPoint.charge])
   
   const getForce = useCallback(() => {
     return envPoints.filter(point => point.id !== currentPoint.id).reduce((acc, point) => {

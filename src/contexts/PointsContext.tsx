@@ -18,21 +18,21 @@ const PointsContext = createContext({} as PointsData)
 export function PointsProvider({children}: PointsProviderProps) {
     const [basePoints, setBasePoints] = useState<Array<IPoint>>([
         {
-            charge: -2,
+            charge: 2,
             x: 1,
             y: 1,
             z: -1,
             id: 0
         },
         {
-            charge: 2,
+            charge: -2,
             x: -1,
             y: -1,
             z: 1,
             id: 1
         },
         {
-            charge: 1,
+            charge: -1,
             x: 0,
             y: 0,
             z: 0,
