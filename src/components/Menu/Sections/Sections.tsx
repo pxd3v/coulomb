@@ -6,8 +6,8 @@ export enum PossibleSections {
 }
 
 interface ISectionsProps {
-    focusedSection: PossibleSections | null
-    onChangeFocusedSection: (newValue: PossibleSections | null) => void
+    focusedSection: PossibleSections
+    onChangeFocusedSection: (newValue: PossibleSections) => void
 }
 
 function Sections({ focusedSection, onChangeFocusedSection }: ISectionsProps) {

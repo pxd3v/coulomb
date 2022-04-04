@@ -5,8 +5,8 @@ import Config from './Sections/Config/Config'
 import Points from './Sections/Points/Points'
 
 function Menu() {
-  const [focusedSection, setFocusedSection] = useState<PossibleSections | null>(null)
-  const onChangeFocusedSection = useCallback((newValue: PossibleSections | null) => {
+  const [focusedSection, setFocusedSection] = useState<PossibleSections>(PossibleSections.CONFIG)
+  const onChangeFocusedSection = useCallback((newValue: PossibleSections) => {
     setFocusedSection(newValue)
   }, [])
   
