@@ -9,9 +9,10 @@ interface PointsData {
     points: Array<IPoint>
     updatePoint: (point: IPoint) => void
     resetPoints: () => void
-    updateBasePoints: (point: IPoint) => void
+    updateBasePoints: (points: Array<IPoint>) => void
     createNewPoint: () => void
     removePoint: (pointId: number) => void
+    parsePoint: (point: IPoint) => IPoint
 }
 
 const PointsContext = createContext({} as PointsData)
@@ -46,10 +47,9 @@ export function PointsProvider({children}: PointsProviderProps) {
         setPoints([...(newPoints || basePoints)])
     }, [basePoints])
 
-    const updateBasePoints = useCallback((point: IPoint) => {
-        setBasePoints((currentBasePoints) => currentBasePoints.map(currentPoint => currentPoint.id === point.id ? point : currentPoint))
-        resetPoints()
-    }, [resetPoints])
+    const updateBasePoints = useCallback((points: Array<IPoint>) => {
+        setBasePoints([...points.map(point => parsePoint(point))])
+    }, [])
 
     const createNewPoint = useCallback(() => {
         const newPoint = {
@@ -70,10 +70,19 @@ export function PointsProvider({children}: PointsProviderProps) {
         setPoints([...newPoints])
     }, [basePoints])
 
+    const parsePoint = (point: IPoint) => {
+        return {
+        charge: Number(point.charge),
+        x: Number(point.x),
+        y: Number(point.y),
+        z: Number(point.z),
+        id: point.id
+        }
+    }
     
 
     return (
-        <PointsContext.Provider value={{ points, updatePoint, resetPoints, updateBasePoints, createNewPoint, removePoint }}>
+        <PointsContext.Provider value={{ points, updatePoint, resetPoints, updateBasePoints, createNewPoint, removePoint, parsePoint }}>
             {children}
         </PointsContext.Provider>
     )

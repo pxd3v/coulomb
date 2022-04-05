@@ -2,6 +2,7 @@ import './Points.scss'
 import { usePoints } from "../../../../contexts/PointsContext";
 import { IPoint } from '../../../Point';
 import { useEnv } from '../../../../contexts/EnvContext';
+import { useState } from 'react';
 
 enum PossibleChanges {
   'charge'= 'charge',
@@ -11,51 +12,70 @@ enum PossibleChanges {
 }
 
 function Points() {
-  const { points, updatePoint, createNewPoint, removePoint } = usePoints()
-  const { setIsRunning } = useEnv()
+  const { points, updatePoint, createNewPoint, removePoint, updateBasePoints, parsePoint } = usePoints()
+  const [ formPoints, setFormPoints ] = useState<Array<IPoint>>([...points])
   
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>, point: IPoint, property: PossibleChanges) => {
-    const newPoint = { ...point, [property]: Number(event.currentTarget.value) }
-    updatePoint(newPoint)
-    setIsRunning(false)
+  const { setIsRunning } = useEnv()
+  const debounceFactory = (debounceCallback: any, delay = 500) => {
+    let debounce: number | null = null
+    
+    return (...args: any) => {
+      if (debounce) {
+        window.clearInterval(debounce)
+      }
+      
+      debounce = window.setTimeout(() => {
+        debounceCallback(...args)
+      }, delay)
+    }
   }
+  
+  const onChangeDebounce = debounceFactory((point: IPoint) => {
+    updatePoint(parsePoint(point))
+    setIsRunning(false)
+  })
 
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>, point: IPoint, property: PossibleChanges) => {
+    const newPoint = { ...point, [property]: event.target.value }
+    const newPoints = [...formPoints.map((prevPoint) => prevPoint.id === point.id ? newPoint : prevPoint)]
+    setFormPoints(newPoints)
+    updateBasePoints(newPoints)
+    onChangeDebounce(newPoint)
+  }
   const onCreateNewPoint = () => {
     createNewPoint()
     setIsRunning(false)
   }
+  
+
 
   return (
     <div className="Points">
-        {points.map((point) => (
+        {formPoints.map((point) => (
           <div className="Points__Input" key={point.id}>
-            {/* <input type="number" value={point.charge} onChange={(event) => onChange(event, point, PossibleChanges.charge)}></input>
-            <input type="number" value={point.x} onChange={(event) => onChange(event, point, PossibleChanges.x)}></input>
-            <input type="number" value={point.y} onChange={(event) => onChange(event, point, PossibleChanges.y)}></input>
-            <input type="number" value={point.z} onChange={(event) => onChange(event, point, PossibleChanges.z)}></input> */}
             <div> 
               <label>
                 Charge
               </label>
-              <input type="number" value={point.charge} onChange={(event) => onChange(event, point, PossibleChanges.charge)}></input>
+              <input type="text" value={point.charge} onChange={(event) => onChange(event, point, PossibleChanges.charge)}></input>
             </div>
             <div> 
               <label>
                 X
               </label>
-              <input type="number" value={point.x} onChange={(event) => onChange(event, point, PossibleChanges.x)}></input>
+              <input type="text" value={point.x} onChange={(event) => onChange(event, point, PossibleChanges.x)}></input>
             </div>
             <div>
               <label>
                 Y
               </label>
-              <input type="number" value={point.y} onChange={(event) => onChange(event, point, PossibleChanges.y)}></input>
+              <input type="text" value={point.y} onChange={(event) => onChange(event, point, PossibleChanges.y)}></input>
             </div>
             <div>
               <label>
                 Z
               </label>
-              <input type="number" value={point.z} onChange={(event) => onChange(event, point, PossibleChanges.z)}></input>
+              <input type="text" value={point.z} onChange={(event) => onChange(event, point, PossibleChanges.z)}></input>
             </div>
             <button onClick={() => removePoint(point.id)}>X</button>
           </div>
