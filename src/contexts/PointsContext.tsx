@@ -8,9 +8,9 @@ interface PointsProviderProps {
 interface PointsData {
     points: Array<IPoint>
     updatePoint: (point: IPoint) => void
-    resetPoints: () => void
+    resetPoints: (newPoints?: Array<IPoint>) => void
     updateBasePoints: (points: Array<IPoint>) => void
-    createNewPoint: () => void
+    createNewPoint: () => IPoint
     removePoint: (pointId: number) => void
     parsePoint: (point: IPoint) => IPoint
 }
@@ -60,9 +60,8 @@ export function PointsProvider({children}: PointsProviderProps) {
             id: nextIndex
         }
         setNextIndex(nextIndex + 1)
-        setBasePoints([...points, newPoint])
-        resetPoints([...points, newPoint])
-    }, [nextIndex, points, resetPoints])
+        return newPoint
+    }, [nextIndex])
 
     const removePoint = useCallback((pointId) => {
         const newPoints = basePoints.filter(point => point.id !== pointId)

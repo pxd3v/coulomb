@@ -27,6 +27,19 @@
 
         button {
             margin-left: 16px;
+            background: none;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: self-end;
+            height: 30px;
+            cursor: pointer;
+            
+            &:hover {
+                background-color: #ddd;
+            }
         }
     }
     
