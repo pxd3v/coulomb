@@ -11,6 +11,7 @@ interface PointsData {
     resetPoints: () => void
     updateBasePoints: (point: IPoint) => void
     createNewPoint: () => void
+    removePoint: (pointId: number) => void
 }
 
 const PointsContext = createContext({} as PointsData)
@@ -62,10 +63,17 @@ export function PointsProvider({children}: PointsProviderProps) {
         setBasePoints([...points, newPoint])
         resetPoints([...points, newPoint])
     }, [nextIndex, points, resetPoints])
+
+    const removePoint = useCallback((pointId) => {
+        const newPoints = basePoints.filter(point => point.id !== pointId)
+        setBasePoints([...newPoints])
+        setPoints([...newPoints])
+    }, [basePoints])
+
     
 
     return (
-        <PointsContext.Provider value={{ points, updatePoint, resetPoints, updateBasePoints, createNewPoint }}>
+        <PointsContext.Provider value={{ points, updatePoint, resetPoints, updateBasePoints, createNewPoint, removePoint }}>
             {children}
         </PointsContext.Provider>
     )

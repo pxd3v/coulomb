@@ -11,7 +11,7 @@ enum PossibleChanges {
 }
 
 function Points() {
-  const { points, updatePoint, createNewPoint } = usePoints()
+  const { points, updatePoint, createNewPoint, removePoint } = usePoints()
   const { setIsRunning } = useEnv()
   
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, point: IPoint, property: PossibleChanges) => {
@@ -28,24 +28,37 @@ function Points() {
   return (
     <div className="Points">
         {points.map((point) => (
-          <span className="Points__Input" key={point.id}>
-            <label>
-              Charge
+          <div className="Points__Input" key={point.id}>
+            {/* <input type="number" value={point.charge} onChange={(event) => onChange(event, point, PossibleChanges.charge)}></input>
+            <input type="number" value={point.x} onChange={(event) => onChange(event, point, PossibleChanges.x)}></input>
+            <input type="number" value={point.y} onChange={(event) => onChange(event, point, PossibleChanges.y)}></input>
+            <input type="number" value={point.z} onChange={(event) => onChange(event, point, PossibleChanges.z)}></input> */}
+            <div> 
+              <label>
+                Charge
+              </label>
               <input type="number" value={point.charge} onChange={(event) => onChange(event, point, PossibleChanges.charge)}></input>
-            </label>
-            <label>
-              X
+            </div>
+            <div> 
+              <label>
+                X
+              </label>
               <input type="number" value={point.x} onChange={(event) => onChange(event, point, PossibleChanges.x)}></input>
-            </label>
-            <label>
-              Y
+            </div>
+            <div>
+              <label>
+                Y
+              </label>
               <input type="number" value={point.y} onChange={(event) => onChange(event, point, PossibleChanges.y)}></input>
-            </label>
-            <label>
-              Z
+            </div>
+            <div>
+              <label>
+                Z
+              </label>
               <input type="number" value={point.z} onChange={(event) => onChange(event, point, PossibleChanges.z)}></input>
-            </label>
-          </span>
+            </div>
+            <button onClick={() => removePoint(point.id)}>X</button>
+          </div>
         ))}
         <button className="Points__CreateNewPoint" onClick={onCreateNewPoint}>Create new point</button>
     </div>

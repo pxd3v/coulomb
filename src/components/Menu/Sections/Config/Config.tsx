@@ -4,6 +4,7 @@ import { usePoints } from '../../../../contexts/PointsContext';
 import { FaStop, FaPlay } from 'react-icons/fa';
 import { IoReload } from 'react-icons/io5';
 import { FcExpand, FcCollapse } from 'react-icons/fc';
+import { GrGrid } from 'react-icons/gr';
 interface IConfigProps {
   setOpenPoints: (open: boolean) => void
   openPoints: boolean
@@ -17,7 +18,7 @@ function Config({ setOpenPoints, openPoints }: IConfigProps) {
     <div className="Config">
         <button onClick={() => setIsRunning(!isRunning)}>{ isRunning ? <FaStop /> : <FaPlay />}</button>
         <button onClick={() => { resetPoints(); setIsRunning(false) }}><IoReload /></button>
-        <button onClick={() => { setShowGrid(!showGrid) }}>toggle grid</button>
+        <button onClick={() => { setShowGrid(!showGrid) }}><GrGrid /></button>
         <button className="Config__ToggleButton"onClick={() => setOpenPoints(!openPoints)}>{ openPoints ? <FcCollapse /> : <FcExpand />}</button>
     </div>
   );
