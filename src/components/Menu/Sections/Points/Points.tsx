@@ -60,8 +60,9 @@ function Points() {
 
   return (
     <div className="Points">
+      <ul className="Points__list">
         {formPoints.map((point) => (
-          <div className="Points__Input" key={point.id}>
+          <li className="Points__Input" key={point.id}>
             <div> 
               <label>
                 Charge
@@ -87,10 +88,12 @@ function Points() {
               <input type="text" value={point.z} onChange={(event) => onChange(event, point, PossibleChanges.z)}></input>
             </div>
             <button onClick={() => onRemove(point.id)}><GrClose /></button>
-          </div>
+          </li>
         ))}
-        <button className="Points__CreateNewPoint" onClick={onCreateNewPoint}>Create new point</button>
+      </ul>
+    <button className="Points__CreateNewPoint" onClick={onCreateNewPoint}>Create new point</button>
     </div>
+
   );
 }
 
