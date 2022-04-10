@@ -19,7 +19,7 @@ function Config({ setOpenPoints, openPoints }: IConfigProps) {
         <button onClick={() => setIsRunning(!isRunning)}>{ isRunning ? <FaStop /> : <FaPlay />}</button>
         <button onClick={() => { resetPoints(); setIsRunning(false) }}><IoReload /></button>
         <button onClick={() => { setShowGrid(!showGrid) }}><GrGrid /></button>
-        <button onClick={() => { setIsRunning(false); generateRandomPoints(500) }}>generate random points</button>
+        <button onClick={() => { setIsRunning(false); generateRandomPoints(200) }}>generate random points</button>
         <button className="Config__ToggleButton"onClick={() => setOpenPoints(!openPoints)}>{ openPoints ? <FcCollapse /> : <FcExpand />}</button>
     </div>
   );
