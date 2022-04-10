@@ -13,6 +13,7 @@ interface PointsData {
     createNewPoint: () => IPoint
     removePoint: (pointId: number) => void
     parsePoint: (point: IPoint) => IPoint
+    generateRandomPoints: (numberOfPoints: number) => void
 }
 
 const PointsContext = createContext({} as PointsData)
@@ -20,19 +21,40 @@ const PointsContext = createContext({} as PointsData)
 export function PointsProvider({children}: PointsProviderProps) {
     const [basePoints, setBasePoints] = useState<Array<IPoint>>([
         {
-            charge: 2,
-            x: 1,
-            y: 1,
-            z: -1,
+            charge: 8,
+            x: 0,
+            y: 0,
+            z: 0,
             id: 0
         },
         {
             charge: -2,
-            x: -1,
-            y: -1,
-            z: 1,
+            x: 2,
+            y: 1,
+            z: 0,
             id: 1
-        }
+        },
+        {
+            charge: -2,
+            x: 0,
+            y: -2,
+            z: 0,
+            id: 2
+        },
+        {
+            charge: -2,
+            x: 0,
+            y: 1,
+            z: -1,
+            id: 3
+        },
+        {
+            charge: -2,
+            x: 0,
+            y: 1,
+            z: -2,
+            id: 4
+        },
     ])
 
     const [points, setPoints] = useState<Array<IPoint>>([...basePoints])
@@ -78,10 +100,19 @@ export function PointsProvider({children}: PointsProviderProps) {
         id: point.id
         }
     }
-    
+
+    const generateRandomPoints = (numberOfPoints: number) => {
+        setPoints(new Array(numberOfPoints).fill(0).map((_item, id) => ({
+            charge: Math.random() * 8 * (Math.random() >= 0.5 ? 1 : -1),
+            x: Math.random() * 5 * (Math.random() >= 0.5 ? 1 : -1),
+            y: Math.random() * 5 * (Math.random() >= 0.5 ? 1 : -1),
+            z: Math.random() * 5 * (Math.random() >= 0.5 ? 1 : -1),
+            id
+        })))
+    }
 
     return (
-        <PointsContext.Provider value={{ points, updatePoint, resetPoints, updateBasePoints, createNewPoint, removePoint, parsePoint }}>
+        <PointsContext.Provider value={{ points, updatePoint, resetPoints, updateBasePoints, createNewPoint, removePoint, parsePoint, generateRandomPoints }}>
             {children}
         </PointsContext.Provider>
     )

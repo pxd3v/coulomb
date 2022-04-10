@@ -27,13 +27,13 @@ export function Point({ currentPoint, envPoints, updatePoint, canMove, orbitCont
     const { forceVector, vectorWithoutForce } = getForce()
     
     if(Math.abs(vectorWithoutForce[0]) > 0.05) {
-      mesh.current.position.x += forceVector[0] * 0.004
+      mesh.current.position.x += forceVector[0] * 0.001
     }
     if(Math.abs(vectorWithoutForce[1]) > 0.05) {
-      mesh.current.position.y += forceVector[1] * 0.004
+      mesh.current.position.y += forceVector[1] * 0.001
     }
     if(Math.abs(vectorWithoutForce[2]) > 0.05) {
-      mesh.current.position.z += forceVector[2] * 0.004
+      mesh.current.position.z += forceVector[2] * 0.001
     }
 
     updatePoint({
